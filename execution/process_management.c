@@ -113,7 +113,7 @@ static void	execute_child_process(t_exec_context *ctx)
 	char	*command_path;
 	char	**env_array;
 
-	signal(SIGPIPE, SIG_DFL);
+	setup_signals_child_default();
 	handle_file_descriptors(ctx->input_fd, ctx->output_fd);
 	command_path = find_command_path(ctx->gc, ctx->env, ctx->cmd->args[0]);
 	if (!command_path)

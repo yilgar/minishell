@@ -347,7 +347,7 @@ void	interactive_shell(t_gc *gc, t_env *env)
 	exit_status = 0;
 	should_exit = 0;
 	setup_readline();
-	setup_signals();
+	setup_signals_interactive();
 	while (!should_exit)
 	{
 		line = read_command_line();

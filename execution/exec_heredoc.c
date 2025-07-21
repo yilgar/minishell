@@ -18,15 +18,9 @@ void	setup_heredoc_child_process(t_gc *gc, t_env *env, int write_fd)
 		term.c_lflag &= ~ECHOCTL;
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	}
-	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
-		exit(130);
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-	{
-		gc_free_all(gc);
-		env_cleanup(env);
-		exit(131);
-	}
+	setup_signals_heredoc_child(gc, env);
 }
+
 
 static void	write_heredoc_line(t_gc *gc, t_env *env, char *line,
 		int write_fd, int is_quoted)

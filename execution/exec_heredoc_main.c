@@ -6,12 +6,11 @@ static int	handle_heredoc_parent_process(int read_fd, int write_fd, pid_t pid)
 
 	close(write_fd);
 	waitpid(pid, &status, 0);
-	if (g_exit_status == -1)
-		g_exit_status = 0;
 	if (WIFSIGNALED(status))
 	{
 		close(read_fd);
-		g_exit_status = 130;
+		if (WTERMSIG(status) == SIGINT)
+			g_exit_status = 130;
 		return (-1);
 	}
 	return (read_fd);
@@ -27,7 +26,6 @@ int	handle_heredoc(t_gc *gc, t_env *env, char *delimiter, int is_quoted)
 		perror("pipe");
 		return (-1);
 	}
-	g_exit_status = -1;
 	pid = fork();
 	if (pid == -1)
 	{

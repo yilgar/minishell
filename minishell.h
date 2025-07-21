@@ -196,11 +196,10 @@ void					close_pipes(int *pipe_fds, int count);
 int						wait_for_processes(pid_t *pids, int count);
 
 // Signal handling
-void					setup_signals(void);
-void					setup_signals_child_running(void);
-void					restore_signals(void);
-void					handle_sigint(int sig);
-void					handle_sigint_heredoc_parent(int sig);
+void					setup_signals_interactive(void);
+void					setup_signals_child_waiting(void);
+void					setup_signals_child_default(void);
+void					setup_signals_heredoc_child(t_gc *gc, t_env *env);
 
 // Interactive shell
 void					interactive_shell(t_gc *gc, t_env *env);

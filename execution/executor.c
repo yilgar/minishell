@@ -88,9 +88,9 @@ static int	execute_external_command(t_exec_context *ctx)
 	pid = fork_and_exec(&exec_ctx);
 	if (pid == -1)
 		return (1);
-	setup_signals_child_running();
+	setup_signals_child_waiting();
 	waitpid(pid, &status, 0);
-	restore_signals();
+	setup_signals_interactive();
 	close_redirect_fds(redirect_input_fd, redirect_output_fd);
 	return (handle_external_process_status(status));
 }
@@ -354,9 +354,9 @@ int	execute_pipeline(t_gc *gc, t_env *env, t_pipeline *pipeline)
 		return (execute_single_command_pipeline(gc, env, pipeline));
 	if (execute_pipeline_commands(gc, env, pipeline, pids) == 1)
 		return (1);
-	setup_signals_child_running();
+	setup_signals_child_waiting();
 	exit_status = wait_for_processes(pids, cmd_count);
-	restore_signals();
+	setup_signals_interactive();
 	pipeline->exit_status = exit_status;
 	return (exit_status);
 }
