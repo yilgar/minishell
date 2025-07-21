@@ -1,0 +1,28 @@
+#!/usr/bin/expect -f
+set timeout 5
+
+spawn ./minishell
+expect "minishell> "
+
+# Direkt heredoc başlat (history yok)
+send "cat << EOF\r"
+expect "heredoc> "
+
+# SIGQUIT gönder (Ctrl+\)
+send "\034"
+
+# Prompt durumunu kontrol et
+expect {
+    "minishell> minishell> " {
+        puts "FAILED: Double prompt detected!"
+        exit 1
+    }
+    "minishell> " {
+        puts "SUCCESS: Clean single prompt"
+        exit 0
+    }
+    timeout {
+        puts "TIMEOUT: No prompt detected"
+        exit 1
+    }
+}
