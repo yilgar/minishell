@@ -112,6 +112,12 @@ void					env_add_str(t_gc *gc, t_env *env, const char *str);
 void					env_remove_key(t_gc *gc, t_env *env, const char *key);
 int						env_len(char **envp);
 char					*env_get_value(t_env *env, const char *key);
+char	*get_var_name(const char *str);
+void	print_exported_vars(t_env *env);
+int	is_valid_identifier(char *str);
+int	handle_invalid_identifier(char *arg);
+void	handle_var_with_value(t_gc *gc, t_env *env, char *arg);
+void	handle_var_without_value(t_gc *gc, t_env *env, char *arg);
 
 // Builtin functions
 int						builtin_pwd(t_gc *gc, char **args);
@@ -152,6 +158,12 @@ int						handle_output_redirection(t_cmd *cmd, char *filename, int flags);
 int						handle_heredoc_redirection(t_gc *gc, t_cmd *cmd, t_token *filename_token);
 int						handle_redirection(t_gc *gc, t_cmd *cmd, t_token **tokens);
 int						check_redirection_syntax(t_token *current);
+void	compact_args_array(char **args, int count);
+int	process_redirections(t_gc *gc, t_cmd *cmd, t_token **current);
+void	setup_default_args_for_heredoc(t_gc *gc, t_cmd *cmd);
+t_cmd	*parse_command(t_gc *gc, t_token **tokens);
+char	*replace_env_vars(t_gc *gc, t_env *env, char *str);
+
 
 // Expander functions
 char					*expand_variables(t_gc *gc, t_env *env, char *str,
@@ -160,6 +172,42 @@ char					*expand_variables_in_double_quotes(t_gc *gc, t_env *env,
 							char *str, int exit_status);
 char					*expand_env_var(t_gc *gc, t_env *env, char *var_name);
 
+char	*process_unquoted_segment(t_gc *gc, t_env *env, char *str,
+		int *i, int exit_status);
+char	*process_double_quote_segment(t_gc *gc, t_env *env, char *str,
+		int *i, int exit_status);
+char	*process_single_quote_segment(t_gc *gc, char *str, int *i);
+char	*expand_env_var(t_gc *gc, t_env *env, char *var_name);
+char	*replace_exit_status(t_gc *gc, char *str, int exit_status);
+void	link_tokens_to_original(t_token **tokens, t_token *token_to_split);
+void	create_tokens_from_words(t_gc *gc, t_token **tokens, char **words,
+		t_token *prev_token);
+t_token	*create_and_configure_token(t_gc *gc, char *word, int has_space);
+void	link_token_to_list(t_token **tokens, t_token **current,
+		t_token *prev_token, t_token *new_token);
+t_token	*find_token_position(t_token **tokens, t_token *token_to_split,
+		t_token **prev_token);
+void	split_token_by_whitespace(t_gc *gc, t_token **tokens,
+		t_token *token_to_split);
+void	mark_heredoc_delimiters(t_token *tokens);
+void	set_token_properties(t_token *token, char *value, t_token_type type);
+void	expand_env_var_token(t_gc *gc, t_env *env, t_token *current);
+void	expand_exit_status_token(t_gc *gc, t_token *current);
+void	expand_token_variables(t_gc *gc, t_env *env, t_token *current);
+void	process_token_expansion(t_gc *gc, t_env *env, t_token *tokens);
+void	split_expanded_tokens(t_gc *gc, t_token **tokens);
+t_pipeline	*create_pipeline_from_tokens(t_gc *gc, t_token *tokens,
+		int *exit_status, int *is_incomplete_pipe);
+void	cleanup_line_resources(char **line, char *continuation_line);
+char	*create_combined_line(t_gc *gc, char *original_line,
+		char *continuation_line);
+int	process_command_line(t_gc *gc, t_env *env, char *line, int *exit_status);
+void	process_tokens(t_gc *gc, t_env *env, t_token **tokens);
+int	validate_input_and_tokenize(t_gc *gc, char *line, t_token **tokens);
+int	execute_and_cleanup(t_gc *gc, t_env *env, t_pipeline *pipeline,
+		int *exit_status);
+int	handle_incomplete_pipe(t_gc *gc, t_env *env, char **line,
+		int *exit_status);
 // Utils
 int						is_special_char(char c);
 int						is_quote(char c);
@@ -194,12 +242,47 @@ char					*find_command_in_path_any(t_gc *gc, t_env *env,
 char					**env_to_array(t_gc *gc, t_env *env);
 void					close_pipes(int *pipe_fds, int count);
 int						wait_for_processes(pid_t *pids, int count);
+char	**get_path_dirs(t_gc *gc, t_env *env);
+char	*build_full_path(t_gc *gc, char *path_dir, char *command);
+char	*check_command_in_path(t_gc *gc, char *command, char *path_dir);
+char	*handle_absolute_path(t_gc *gc, char *command);
+char	*search_in_path_dirs(t_gc *gc, char **path_dirs, char *command);
+int	execute_builtin_with_redirections(t_exec_context *ctx);
+void	restore_builtin_fds(int saved_stdin, int saved_stdout);
+void	setup_builtin_redirections(int input_fd, int output_fd);
+int	handle_empty_command(t_exec_context *ctx);
+void	close_redirect_fds(int input_fd, int output_fd);
+int	handle_external_process_status(int status);
+int	execute_external_command(t_exec_context *ctx);
+int	execute_command(t_exec_context *ctx);
+int	count_commands(t_pipeline *pipeline);
+void	setup_child_redirections(t_exec_context *ctx, int redirect_input_fd,
+		int redirect_output_fd);
+int	handle_external_in_pipeline(t_exec_context *ctx);
+pid_t	create_failed_external_child(t_exec_context *ctx);
+int	handle_builtin_in_pipeline(t_exec_context *ctx);
+pid_t	create_builtin_child_process(t_exec_context *ctx);
+void	handle_child_failure(t_exec_context *ctx);
+pid_t	create_empty_child_process(t_exec_context *ctx);
+int	handle_empty_in_pipeline(t_exec_context *ctx);
+void	setup_pipe_context(t_exec_context *ctx, t_cmd *current,
+		int prev_fd, int *pipe_fds);
+pid_t	execute_single_command_in_pipeline(t_exec_context *ctx);
+void	cleanup_pipe_fds(t_exec_context *ctx);
+ void	handle_command_not_found(t_gc *gc, t_env *env, char *cmd_name);
+ void	handle_file_descriptors(int input_fd, int output_fd);
+int	wait_for_processes(pid_t *pids, int count);
+int	handle_process_status(int status, int i, int count, int *sigint_received);
+void	close_pipes(int *pipe_fds, int count);
 
 // Signal handling
 void					setup_signals_interactive(void);
 void					setup_signals_child_waiting(void);
 void					setup_signals_child_default(void);
 void					setup_signals_heredoc_child(t_gc *gc, t_env *env);
+t_gc	*heredoc_gc_store(t_gc *set);
+t_env	*heredoc_env_store(t_env *set);
+void	heredoc_sigint_handler(int sig);
 
 // Interactive shell
 void					interactive_shell(t_gc *gc, t_env *env);

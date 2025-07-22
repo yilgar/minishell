@@ -34,11 +34,6 @@ int	builtin_exit(t_gc *gc, t_env *env, char **args)
 		}
 		if (!is_valid_numeric_arg(args[1]))
 		{
-			// write(STDERR_FILENO, "exit: ", 6);
-			// write(STDERR_FILENO, args[1], ft_strlen(args[1]));
-			// write(STDERR_FILENO, ": numeric argument required\n", 28);
-			// env_cleanup(env);
-			// gc_free_all(gc);
 			handle_exec_error(gc, env, args[1], "numeric argument required");
 			exit(2);
 		}

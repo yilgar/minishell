@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static int	is_valid_identifier(char *str)
+static int	is_valid_identifier_unset(char *str)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ int	builtin_unset(t_gc *gc, t_env *env, char **args)
 	i = 1;
 	while (args[i])
 	{
-		if (!is_valid_identifier(args[i]))
+		if (!is_valid_identifier_unset(args[i]))
 		{
 			printf("unset: `%s': not a valid identifier\n", args[i]);
 			ret = 1;

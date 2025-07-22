@@ -1,12 +1,5 @@
 #include "../minishell.h"
 
-// static void	heredoc_sigint_handler(int sig)
-// {
-// 	(void)sig;
-// 	write(STDOUT_FILENO, "\n", 1);
-// 	exit(130);
-// }
-
 
 void	setup_heredoc_child_process(t_gc *gc, t_env *env, int write_fd)
 {
@@ -57,7 +50,7 @@ void	process_heredoc_input(t_gc *gc, t_env *env, char *delimiter,
 		{
 			gc_free_all(gc);
 			env_cleanup(env);
-			exit(0);
+			exit(130);
 		}
 		if (ft_strncmp(line, delimiter, delimiter_len) == 0
 			&& line[delimiter_len] == '\0')
@@ -65,7 +58,7 @@ void	process_heredoc_input(t_gc *gc, t_env *env, char *delimiter,
 			free(line);
 			gc_free_all(gc);
 			env_cleanup(env);
-			exit(0);
+			exit(131);
 		}
 		write_heredoc_line(gc, env, line, write_fd, is_quoted);
 		free(line);

@@ -1,21 +1,6 @@
 #include "../minishell.h"
 
-static char	*get_var_name(const char *str)
-{
-	char	*eq_pos;
-	int		len;
-	char	*name;
 
-	eq_pos = ft_strchr(str, '=');
-	if (!eq_pos)
-		return (ft_strdup(str));
-	len = eq_pos - str;
-	name = malloc(len + 1);
-	if (!name)
-		return (NULL);
-	ft_strlcpy(name, str, len + 1);
-	return (name);
-}
 
 static int	find_var_index(char **envp, const char *name)
 {

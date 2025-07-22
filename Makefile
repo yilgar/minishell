@@ -23,6 +23,7 @@ SRCS = minishell.c \
        builtin/echo.c \
        builtin/env.c \
        builtin/cd.c \
+	   builtin/export_utils.c \
        builtin/export.c \
        builtin/unset.c \
        builtin_manager.c \
@@ -36,6 +37,11 @@ SRCS = minishell.c \
        lexer/tokenizer.c \
        lexer/token_utils.c \
        lexer/token_handlers.c \
+	   lexer/token_expand.c \
+	   lexer/token_marker.c \
+	   lexer/token_pipe.c \
+	   lexer/token_positions.c \
+	   lexer/token_process.c \
        parser/parser.c \
        parser/parser_args.c \
        parser/parser_command.c \
@@ -43,16 +49,27 @@ SRCS = minishell.c \
        parser/parser_redirect.c \
        parser/parser_redirect_handler.c \
        parser/parser_syntax.c \
+	   parser/parser_args_utils.c \
+	   parser/parser_command_utils.c \
        expander/expander.c \
+	   expander/expander_env.c \
+	   expander/expander_utils.c \
        execution/command_finder.c \
+	   execution/command_finder_utils.c \
        execution/env_utils.c \
        execution/exec_error.c \
        execution/exec_heredoc.c \
        execution/exec_heredoc_main.c \
        execution/exec_redirect.c \
        execution/process_management.c \
+	   execution/executor_utils.c \
+	   execution/executor_process.c \
+	   execution/executor_handling.c \
+	   execution/executor_pipeline.c \
+	   execution/process_management_utils.c \
        execution/executor.c \
        signals/signals.c \
+	   signals/signal_utils.c \
        utils/char_utils.c
 
 OBJS = $(SRCS:.c=.o)

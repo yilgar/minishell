@@ -72,22 +72,6 @@ static void	extract_args_from_tokens(t_gc *gc, char **args, t_token **tokens)
 	*tokens = current;
 }
 
-static void	compact_args_array(char **args, int count)
-{
-	int	j;
-	int	k;
-
-	j = 0;
-	k = 0;
-	while (k < count)
-	{
-		if (args[k] && args[k][0] != '\0')
-			args[j++] = args[k];
-		k++;
-	}
-	args[j] = NULL;
-}
-
 char	**parse_args(t_gc *gc, t_token **tokens)
 {
 	char	**args;
