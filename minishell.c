@@ -47,7 +47,7 @@ void	interactive_shell(t_gc *gc, t_env *env)
 		}
 		result = process_command_line(gc, env, line, &exit_status);
 		write(STDOUT_FILENO, "", 0);
-		rl_on_new_line();
+		// rl_on_new_line();
 		should_exit = handle_command_result(&line, result, gc, env);
 		free(line);
 	}
@@ -73,3 +73,9 @@ int	main(int argc, char **argv, char **envp)
 	gc_free_all(&gc);
 	return (g_exit_status);
 }
+
+
+
+//heredoc contrl c 0 ile çıkıyor 1 çıkması lazım
+
+//heredoc control d dogru cıkıyor

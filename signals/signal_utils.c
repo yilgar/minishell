@@ -26,7 +26,7 @@ void	heredoc_sigint_handler(int sig)
 	gc = heredoc_gc_store(NULL);
 	env = heredoc_env_store(NULL);
 	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
+	// write(STDOUT_FILENO, "\n", 1);
 	if (gc)
 		gc_free_all(gc);
 	if (env)

@@ -23,9 +23,7 @@ void	process_heredoc_loop(t_heredoc_context *ctx)
 	{
 		line = readline("heredoc> ");
 		if (!line)
-		{
 			cleanup_and_exit(ctx->gc, ctx->env, 130);
-		}
 		if (check_delimiter_match(line, ctx->delimiter, delimiter_len))
 		{
 			free(line);
