@@ -27,9 +27,7 @@ void	mark_heredoc_delimiters(t_token *tokens)
 	while (current && current->type != TOKEN_EOF)
 	{
 		if (current->type == TOKEN_REDIRECT_HEREDOC && current->next)
-		// {
 			current->next->is_heredoc_delimiter = 1;
-		// }
 		current = current->next;
 	}
 }

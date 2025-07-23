@@ -22,9 +22,10 @@ pid_t	create_builtin_child_process(t_exec_context *ctx)
 	if (pid == 0)
 	{
 		signal(SIGPIPE, SIG_DFL);
-		if (setup_redirections(ctx->gc, ctx->env, ctx->cmd, &redirect_input_fd,
+		if (setup_redirections(ctx, &redirect_input_fd,
 				&redirect_output_fd) == 0)
-			setup_child_redirections(ctx, redirect_input_fd, redirect_output_fd);
+			setup_child_redirections(ctx, redirect_input_fd,
+				redirect_output_fd);
 		else
 			handle_child_failure(ctx);
 		builtin_exit_code = execute_builtin(ctx->gc, ctx->env, ctx->cmd->args);
@@ -60,8 +61,7 @@ int	handle_external_in_pipeline(t_exec_context *ctx)
 	pid_t			pid;
 	t_exec_context	exec_ctx;
 
-	if (setup_redirections(ctx->gc, ctx->env, ctx->cmd, &redirect_input_fd,
-			&redirect_output_fd) == -1)
+	if (setup_redirections(ctx, &redirect_input_fd, &redirect_output_fd) == -1)
 		return (create_failed_external_child(ctx));
 	exec_ctx = *ctx;
 	if (redirect_input_fd != STDIN_FILENO)

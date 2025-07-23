@@ -2,7 +2,9 @@
 
 int	env_len(char **envp)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	while (envp && envp[i])
 		i++;
 	return (i);

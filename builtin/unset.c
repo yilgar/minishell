@@ -36,6 +36,5 @@ int	builtin_unset(t_gc *gc, t_env *env, char **args)
 			env_remove_key(gc, env, args[i]);
 		i++;
 	}
-	
 	return (ret);
 }

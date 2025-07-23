@@ -35,18 +35,15 @@ t_token	*handle_variable_token(t_gc *gc, char *input, int *i)
 		(*i)++;
 		return (create_token(gc, TOKEN_EXIT_STATUS, "$?"));
 	}
-	
 	start = *i;
 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
 		(*i)++;
-	
 	len = *i - start;
 	if (len == 0)
 	{
 		(*i)++;
 		return (create_token(gc, TOKEN_WORD, "$"));
 	}
-	
 	var_name = gc_track(gc, malloc(len + 1));
 	ft_strlcpy(var_name, input + start, len + 1);
 	full_var = gc_track(gc, ft_strjoin("$", var_name));

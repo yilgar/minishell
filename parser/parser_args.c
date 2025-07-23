@@ -33,8 +33,7 @@ static int	count_args_tokens(t_token *tokens)
 
 	count = 0;
 	current = tokens;
-	while (current && current->type != TOKEN_PIPE 
-		&& current->type != TOKEN_EOF)
+	while (current && current->type != TOKEN_PIPE && current->type != TOKEN_EOF)
 	{
 		if (is_concatenable_token(current))
 		{
@@ -49,8 +48,6 @@ static int	count_args_tokens(t_token *tokens)
 	return (count);
 }
 
-
-
 static void	extract_args_from_tokens(t_gc *gc, char **args, t_token **tokens)
 {
 	t_token	*current;
@@ -58,8 +55,7 @@ static void	extract_args_from_tokens(t_gc *gc, char **args, t_token **tokens)
 
 	i = 0;
 	current = *tokens;
-	while (current && current->type != TOKEN_PIPE 
-		&& current->type != TOKEN_EOF)
+	while (current && current->type != TOKEN_PIPE && current->type != TOKEN_EOF)
 	{
 		if (is_concatenable_token(current))
 			args[i++] = concatenate_tokens(gc, &current);

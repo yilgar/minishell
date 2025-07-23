@@ -46,7 +46,7 @@ void	interactive_shell(t_gc *gc, t_env *env)
 			break ;
 		}
 		result = process_command_line(gc, env, line, &exit_status);
-		write(STDOUT_FILENO, "", 0);  // Boş write ile flush tetiklenir fflush(stdout); sildim
+		write(STDOUT_FILENO, "", 0);
 		rl_on_new_line();
 		should_exit = handle_command_result(&line, result, gc, env);
 		free(line);

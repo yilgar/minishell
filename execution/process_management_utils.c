@@ -45,7 +45,8 @@ int	wait_for_processes(pid_t *pids, int count)
 		if (pids[i] != -1)
 		{
 			waitpid(pids[i], &status, 0);
-			exit_status = handle_process_status(status, i, count, &sigint_received);
+			exit_status = handle_process_status(status, i, count,
+					&sigint_received);
 		}
 		i++;
 	}
@@ -54,7 +55,7 @@ int	wait_for_processes(pid_t *pids, int count)
 	return (exit_status);
 }
 
- void	handle_file_descriptors(int input_fd, int output_fd)
+void	handle_file_descriptors(int input_fd, int output_fd)
 {
 	if (input_fd != STDIN_FILENO)
 	{
@@ -68,7 +69,7 @@ int	wait_for_processes(pid_t *pids, int count)
 	}
 }
 
- void	handle_command_not_found(t_gc *gc, t_env *env, char *cmd_name)
+void	handle_command_not_found(t_gc *gc, t_env *env, char *cmd_name)
 {
 	char	*path_file;
 

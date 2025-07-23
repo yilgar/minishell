@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 static int	process_pipe_token(t_token **tokens, int *incomplete_pipe)
 {
 	*tokens = (*tokens)->next;
@@ -11,13 +10,15 @@ static int	process_pipe_token(t_token **tokens, int *incomplete_pipe)
 	}
 	if ((*tokens)->type == TOKEN_PIPE)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n",
+			STDERR_FILENO);
 		return (-1);
 	}
 	return (0);
 }
 
-static t_pipeline	*init_pipeline(t_gc *gc, t_token *tokens, int *incomplete_pipe)
+static t_pipeline	*init_pipeline(t_gc *gc, t_token *tokens,
+		int *incomplete_pipe)
 {
 	t_pipeline	*pipeline;
 
@@ -26,7 +27,8 @@ static t_pipeline	*init_pipeline(t_gc *gc, t_token *tokens, int *incomplete_pipe
 		return (NULL);
 	if (tokens && tokens->type == TOKEN_PIPE)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n",
+			STDERR_FILENO);
 		return (NULL);
 	}
 	pipeline = gc_track(gc, malloc(sizeof(t_pipeline)));
@@ -37,7 +39,8 @@ static t_pipeline	*init_pipeline(t_gc *gc, t_token *tokens, int *incomplete_pipe
 	return (pipeline);
 }
 
-static void	add_command_to_pipeline(t_pipeline *pipeline, t_cmd *cmd, t_cmd **last_cmd)
+static void	add_command_to_pipeline(t_pipeline *pipeline, t_cmd *cmd,
+		t_cmd **last_cmd)
 {
 	if (!pipeline->commands)
 		pipeline->commands = cmd;
@@ -46,12 +49,12 @@ static void	add_command_to_pipeline(t_pipeline *pipeline, t_cmd *cmd, t_cmd **la
 	*last_cmd = cmd;
 }
 
-static t_pipeline	*process_commands_loop(t_gc *gc, t_token *tokens, 
-	t_pipeline *pipeline, int *incomplete_pipe)
+static t_pipeline	*process_commands_loop(t_gc *gc, t_token *tokens,
+		t_pipeline *pipeline, int *incomplete_pipe)
 {
-	t_cmd		*cmd;
-	t_cmd		*last_cmd;
-	int			pipe_result;
+	t_cmd	*cmd;
+	t_cmd	*last_cmd;
+	int		pipe_result;
 
 	last_cmd = NULL;
 	while (tokens && tokens->type != TOKEN_EOF)

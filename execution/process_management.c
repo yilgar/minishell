@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 static void	check_directory_and_permissions(t_gc *gc, t_env *env, t_cmd *cmd,
 		char *command_path)
 {
@@ -19,7 +18,8 @@ static void	check_directory_and_permissions(t_gc *gc, t_env *env, t_cmd *cmd,
 		if (access(command_path, F_OK) == 0)
 			handle_exec_error(gc, env, cmd->args[0], "Permission denied");
 		else
-			handle_exec_error(gc, env, cmd->args[0], "No such file or directory");
+			handle_exec_error(gc, env, cmd->args[0],
+				"No such file or directory");
 		exit(126);
 	}
 }

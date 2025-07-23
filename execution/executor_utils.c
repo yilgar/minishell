@@ -13,7 +13,7 @@ int	handle_empty_command(t_exec_context *ctx)
 	int	redirect_input_fd;
 	int	redirect_output_fd;
 
-	if (setup_redirections(ctx->gc, ctx->env, ctx->cmd, &redirect_input_fd,
+	if (setup_redirections(ctx, &redirect_input_fd,
 			&redirect_output_fd) == -1)
 		return (1);
 	close_redirect_fds(redirect_input_fd, redirect_output_fd);
@@ -44,7 +44,7 @@ int	execute_builtin_with_redirections(t_exec_context *ctx)
 	int	saved_stdout;
 	int	exit_code;
 
-	if (setup_redirections(ctx->gc, ctx->env, ctx->cmd, &redirect_input_fd,
+	if (setup_redirections(ctx, &redirect_input_fd,
 			&redirect_output_fd) == -1)
 		return (1);
 	saved_stdin = dup(STDIN_FILENO);

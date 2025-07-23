@@ -6,7 +6,7 @@ t_gc	*heredoc_gc_store(t_gc *set)
 
 	if (set)
 		gc_ptr = set;
-	return gc_ptr;
+	return (gc_ptr);
 }
 
 t_env	*heredoc_env_store(t_env *set)
@@ -15,14 +15,16 @@ t_env	*heredoc_env_store(t_env *set)
 
 	if (set)
 		env_ptr = set;
-	return env_ptr;
+	return (env_ptr);
 }
 
 void	heredoc_sigint_handler(int sig)
 {
-	t_gc	*gc = heredoc_gc_store(NULL);
-	t_env	*env = heredoc_env_store(NULL);
+	t_gc	*gc;
+	t_env	*env;
 
+	gc = heredoc_gc_store(NULL);
+	env = heredoc_env_store(NULL);
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
 	if (gc)

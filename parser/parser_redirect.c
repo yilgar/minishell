@@ -39,8 +39,7 @@ int	handle_output_redirection(t_cmd *cmd, char *filename, int flags)
 	return (0);
 }
 
-int	process_file_redirection(t_cmd *cmd, t_token_type type,
-		char *filename)
+int	process_file_redirection(t_cmd *cmd, t_token_type type, char *filename)
 {
 	int	result;
 

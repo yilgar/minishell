@@ -21,7 +21,7 @@ int	execute_external_command(t_exec_context *ctx)
 	int				status;
 	t_exec_context	exec_ctx;
 
-	if (setup_redirections(ctx->gc, ctx->env, ctx->cmd, &redirect_input_fd,
+	if (setup_redirections(ctx, &redirect_input_fd,
 			&redirect_output_fd) == -1)
 		return (1);
 	exec_ctx = *ctx;

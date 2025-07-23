@@ -9,8 +9,8 @@ int	env_set(t_gc *gc, t_env *env, const char *key, const char *value)
 	if (!env || !key || !value)
 		return (1);
 	key_len = ft_strlen(key);
-    new_entry = gc_track(gc, ft_strjoin(key, "="));
-    new_entry = gc_track(gc, ft_strjoin(new_entry, value));
+	new_entry = gc_track(gc, ft_strjoin(key, "="));
+	new_entry = gc_track(gc, ft_strjoin(new_entry, value));
 	if (!new_entry)
 		return (1);
 	i = 0;

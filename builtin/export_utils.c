@@ -34,7 +34,6 @@ int	is_valid_identifier(char *str)
 		return (0);
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
-	
 	i = 1;
 	while (str[i] && str[i] != '=')
 	{
@@ -42,7 +41,6 @@ int	is_valid_identifier(char *str)
 			return (0);
 		i++;
 	}
-	
 	return (1);
 }
 

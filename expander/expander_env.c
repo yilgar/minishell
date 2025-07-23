@@ -25,7 +25,8 @@ static char	*build_new_result(t_gc *gc, char *result, char *var_value,
 	char	*new_result;
 	int		total_len;
 
-	total_len = ft_strlen(result) + ft_strlen(var_value) + ft_strlen(remaining_str);
+	total_len = ft_strlen(result) + ft_strlen(var_value)
+		+ ft_strlen(remaining_str);
 	new_result = gc_track(gc, malloc(total_len + 1));
 	ft_strlcpy(new_result, result, ft_strlen(result) + 1);
 	ft_strlcat(new_result, var_value, total_len + 1);
@@ -33,7 +34,8 @@ static char	*build_new_result(t_gc *gc, char *result, char *var_value,
 	return (new_result);
 }
 
-static char	*process_single_variable(t_gc *gc, t_env *env, char *result, char *pos)
+static char	*process_single_variable(t_gc *gc, t_env *env, char *result,
+		char *pos)
 {
 	char	*var_start;
 	char	*var_name;

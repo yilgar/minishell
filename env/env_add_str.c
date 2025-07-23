@@ -1,7 +1,5 @@
 #include "../minishell.h"
 
-
-
 static int	find_var_index(char **envp, const char *name)
 {
 	int	i;

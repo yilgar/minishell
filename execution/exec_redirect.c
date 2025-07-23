@@ -35,32 +35,31 @@ static int	setup_output_redirection(t_cmd *cmd, int *output_fd)
 	return (0);
 }
 
-static int	setup_heredoc_redirection(t_gc *gc, t_env *env, t_cmd *cmd,
-		int *input_fd)
+static int	setup_heredoc_redirection(t_exec_context *ctx, int *input_fd)
 {
-	if (cmd->heredoc_list)
-		*input_fd = handle_multiple_heredocs(gc, env, cmd->heredoc_list);
+	if (ctx->cmd->heredoc_list)
+		*input_fd = handle_multiple_heredocs(ctx->gc, ctx->env,
+				ctx->cmd->heredoc_list);
 	else
-		*input_fd = handle_heredoc(gc, env, cmd->heredoc_delim,
-				cmd->heredoc_is_quoted);
+		*input_fd = handle_heredoc(ctx->gc, ctx->env, ctx->cmd->heredoc_delim,
+				ctx->cmd->heredoc_is_quoted);
 	if (*input_fd == -1)
 		return (-1);
 	return (0);
 }
 
-int	setup_redirections(t_gc *gc, t_env *env, t_cmd *cmd, int *input_fd,
-		int *output_fd)
+int	setup_redirections(t_exec_context *ctx, int *input_fd, int *output_fd)
 {
 	*input_fd = STDIN_FILENO;
 	*output_fd = STDOUT_FILENO;
-	if (cmd->heredoc_delimiter)
+	if (ctx->cmd->heredoc_delimiter)
 	{
-		if (setup_heredoc_redirection(gc, env, cmd, input_fd) == -1)
+		if (setup_heredoc_redirection(ctx, input_fd) == -1)
 			return (-1);
 	}
-	else if (setup_input_redirection(cmd, input_fd) == -1)
+	else if (setup_input_redirection(ctx->cmd, input_fd) == -1)
 		return (-1);
-	if (setup_output_redirection(cmd, output_fd) == -1)
+	if (setup_output_redirection(ctx->cmd, output_fd) == -1)
 	{
 		if (*input_fd != STDIN_FILENO)
 			close(*input_fd);

@@ -1,6 +1,4 @@
- #include "../minishell.h"
-
-
+#include "../minishell.h"
 
 char	*find_command_path(t_gc *gc, t_env *env, char *command)
 {

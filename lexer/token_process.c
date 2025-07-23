@@ -26,11 +26,12 @@ int	process_command_line(t_gc *gc, t_env *env, char *line, int *exit_status)
 	if (!validate_input_and_tokenize(gc, line, &tokens))
 		return (0);
 	process_tokens(gc, env, &tokens);
-	pipeline = create_pipeline_from_tokens(gc, tokens, exit_status, &is_incomplete_pipe);
+	pipeline = create_pipeline_from_tokens(gc, tokens, exit_status,
+			&is_incomplete_pipe);
 	if (is_incomplete_pipe)
-		return (2);  // Incomplete pipe - need continuation
+		return (2);
 	if (!pipeline)
-		return (0);  // Syntax error - don't continue
+		return (0);
 	return (execute_and_cleanup(gc, env, pipeline, exit_status));
 }
 

@@ -27,18 +27,18 @@ pid_t	create_empty_child_process(t_exec_context *ctx)
 
 int	handle_empty_in_pipeline(t_exec_context *ctx)
 {
-	int		redirect_input_fd;
-	int		redirect_output_fd;
+	int	redirect_input_fd;
+	int	redirect_output_fd;
 
-	if (setup_redirections(ctx->gc, ctx->env, ctx->cmd, &redirect_input_fd,
+	if (setup_redirections(ctx, &redirect_input_fd,
 			&redirect_output_fd) == -1)
 		return (create_failed_external_child(ctx));
 	close_redirect_fds(redirect_input_fd, redirect_output_fd);
 	return (create_empty_child_process(ctx));
 }
 
-void	setup_pipe_context(t_exec_context *ctx, t_cmd *current,
-		int prev_fd, int *pipe_fds)
+void	setup_pipe_context(t_exec_context *ctx, t_cmd *current, int prev_fd,
+		int *pipe_fds)
 {
 	ctx->cmd = current;
 	ctx->input_fd = prev_fd;

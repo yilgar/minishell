@@ -11,10 +11,7 @@ int	execute_and_cleanup(t_gc *gc, t_env *env, t_pipeline *pipeline,
 	return (0);
 }
 
-
-
-int	handle_incomplete_pipe(t_gc *gc, t_env *env, char **line,
-		int *exit_status)
+int	handle_incomplete_pipe(t_gc *gc, t_env *env, char **line, int *exit_status)
 {
 	char	*continuation_line;
 	char	*combined_line;

@@ -8,7 +8,6 @@ int	builtin_echo(t_gc *gc, char **args)
 	(void)gc;
 	i = 1;
 	newline = 1;
-	
 	while (args[i] && ft_strncmp(args[i], "-n", 2) == 0 && args[i][2] == '\0')
 	{
 		newline = 0;

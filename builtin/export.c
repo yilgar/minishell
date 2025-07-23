@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 static int	process_export_arg(t_gc *gc, t_env *env, char *arg)
 {
 	char	*equals;

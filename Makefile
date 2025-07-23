@@ -23,6 +23,7 @@ SRCS = minishell.c \
        builtin/echo.c \
        builtin/env.c \
        builtin/cd.c \
+       builtin/cd_utils.c \
 	   builtin/export_utils.c \
        builtin/export.c \
        builtin/unset.c \
@@ -59,6 +60,7 @@ SRCS = minishell.c \
        execution/env_utils.c \
        execution/exec_error.c \
        execution/exec_heredoc.c \
+       execution/exec_heredoc_utils.c \
        execution/exec_heredoc_main.c \
        execution/exec_redirect.c \
        execution/process_management.c \
